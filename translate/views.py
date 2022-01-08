@@ -15,4 +15,5 @@ def index(request, *args, **kwargs):
     elif request.method == 'POST':
         # print(f"{request.body}")
         json_data = json.loads(request.body)
-        return HttpResponse(f"{json_data}")
+        grid = json_data['grid']
+        return HttpResponse(f"{grid}")
