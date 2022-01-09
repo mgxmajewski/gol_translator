@@ -1,6 +1,6 @@
 import json
 
-from .utils.rle_translator import extract_rows
+from .utils.rle_translator import rle_to_2d_array
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -17,4 +17,4 @@ def index(request, *args, **kwargs):
         # print(f"{request.body}")
         json_data = json.loads(request.body)
         grid = json_data['grid']
-        return HttpResponse(f"{grid}, {extract_rows(grid)}")
+        return HttpResponse(f"{rle_to_2d_array(grid)}")

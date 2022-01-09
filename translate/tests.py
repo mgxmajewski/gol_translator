@@ -1,13 +1,13 @@
 import pytest
 from assertpy import assert_that
-from .utils.rle_translator import extract_rows, row_parse, row_expand
+from .utils.rle_translator import extract_rows, extract_expressions, row_expand, clean_rle, rle_to_2d_array
 
 
 class TestUtil:
 
     # case 1
-    rle_1 = 'bob$2bo$3o!'
-    expected_1 = ['bob', '2bo', '3o!']
+    rle_1 = 'bob$2bo$3o'
+    expected_1 = [['bob'], ['2bo'], ['3o']]
     case_1 = rle_1, expected_1
 
     @pytest.fixture(autouse=True)
@@ -19,9 +19,9 @@ class TestUtil:
         result = extract_rows(rle_provided)
         assert_that(result).is_equal_to(expected)
 
-    def test_parse_row_simple_chars(self):
+    def test_extract_expressions_simple_chars(self):
         row = ['oo']
-        result = row_parse(row)
+        result = extract_expressions(row)
         expected = ['o', 'o']
         assert_that(result).is_equal_to(expected)
 
@@ -36,12 +36,12 @@ class TestUtil:
     case_row_2 = row_2, expected_2
 
     @pytest.fixture(autouse=True)
-    def prepare_parse_row(self):
-        self.parse_row = row_parse
+    def prepare_extract_expressions(self):
+        self.extract_expressions = extract_expressions
 
     @pytest.mark.parametrize("row_provided, expected", [case_row_1, case_row_2])
-    def test_parse_row_int_char_notation(self, row_provided, expected):
-        result = row_parse(row_provided)
+    def test_extract_expressions_int_char_notation(self, row_provided, expected):
+        result = extract_expressions(row_provided)
         assert_that(result).is_equal_to(expected)
 
     # case 1
@@ -61,4 +61,16 @@ class TestUtil:
     @pytest.mark.parametrize("row_provided, expected", [case_row_1, case_row_2])
     def test_expand_row(self, row_provided, expected):
         result = row_expand(row_provided)
+        assert_that(result).is_equal_to(expected)
+
+    def test_clean_rle(self):
+        rle = '2bo2b2o!'
+        result = clean_rle(rle)
+        expected = '2bo2b2o'
+        assert_that(result).is_equal_to(expected)
+
+    def test_rle_to_2d_array(self):
+        rle = 'bob$2bo$3o!'
+        result = rle_to_2d_array(rle)
+        expected = [['b', 'o', 'b'], ['b', 'b', 'o'], ['o', 'o', 'o']]
         assert_that(result).is_equal_to(expected)
