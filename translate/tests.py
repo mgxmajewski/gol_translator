@@ -1,16 +1,17 @@
 import pytest
-from django.test import TestCase
+from assertpy import assert_that
 from .utils.rle_translator import expand_row
 
 
 # Create your tests here.
-class UtilTest(TestCase):
+class TestUtil:
 
     def test_expand_row_simple_chars(self):
         row = ['oo']
         result = expand_row(row)
 
-        self.assertEqual(result, ['o', 'o'])
+        expected = ['o', 'o']
+        assert_that(result).is_equal_to(expected)
 
     # case 1
     row_1 = ['2bo2b2o']
@@ -26,9 +27,18 @@ class UtilTest(TestCase):
     def prepare_expand_row(self):
         self.expand_row = expand_row
 
-    def test_expand_row_int_char_notation_1(self):
-        row = ['2bo2b2o']
-        expected = ['2b', 'o', '2b', '2o']
-        result = expand_row(row)
+        # case 1
+        row_1 = ['2bo2b2o']
+        expected_1 = ['2b', 'o', '2b', '2o']
+        case_row_1 = row_1, expected_1
 
-        self.assertEqual(result, expected)
+        # case 2
+        row_2 = ['112bo2b2o']
+        expected_2 = ['112b', 'o', '2b', '2o']
+        case_row_2 = row_2, expected_2
+
+    @pytest.mark.parametrize("row_provided, expected", [case_row_1, case_row_2])
+    def test_expand_row_int_char_notation(self, row_provided, expected):
+        result = expand_row(row_provided)
+
+        assert_that(result).is_equal_to(expected)
