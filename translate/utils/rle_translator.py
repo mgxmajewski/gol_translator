@@ -14,19 +14,14 @@ def rows_counter(grid_string):
     return rows
 
 
-def translate_rle(grid_string):
+def extract_rows(grid_string):
     rows = grid_string.split('$')
-    grid = []
-    for row in rows:
-        grid.append([char for char in row])
-
-    return grid
+    return rows
 
 
-def parse_row(row):
+def row_parse(row):
     row_string = row[0]
     split_on_regex = re.findall('[0-9]+[a-z]|[a-z]', row_string)
-
     return split_on_regex
 
 
@@ -38,8 +33,6 @@ def row_expand(row):
         else:
             last_char = expression[-1]
             multiplication = expression[:-1]
-            print(last_char, multiplication)
             for i in range(int(multiplication)):
                 expanded_row.append(last_char)
-
     return expanded_row
