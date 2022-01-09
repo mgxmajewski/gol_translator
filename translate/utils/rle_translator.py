@@ -3,6 +3,7 @@ b	dead cell
 o	alive cell
 $	end of line
 """
+import re
 
 
 def rows_counter(grid_string):
@@ -13,7 +14,6 @@ def rows_counter(grid_string):
     return rows
 
 
-# isdigit()
 def translate_rle(grid_string):
     rows = grid_string.split('$')
     grid = []
@@ -24,10 +24,7 @@ def translate_rle(grid_string):
 
 
 def expand_row(row):
-    expanded_row = []
     row_string = row[0]
-    for char in row_string:
-        if not char.isdigit():
-            expanded_row.append(char)
+    split_on_regex = re.findall('[0-9]+[a-z]|[a-z]', row_string)
 
-    return expanded_row
+    return split_on_regex
