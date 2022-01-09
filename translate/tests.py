@@ -5,7 +5,7 @@ from .utils.rle_translator import expand_row
 # Create your tests here.
 class UtilTest(TestCase):
 
-    def test_expand_row(self):
+    def test_expand_row_simple_chars(self):
         row = ['oo']
         result = expand_row(row)
 

@@ -24,4 +24,10 @@ def translate_rle(grid_string):
 
 
 def expand_row(row):
-    return 1
+    expanded_row = []
+    row_string = row[0]
+    for char in row_string:
+        if not char.isdigit():
+            expanded_row.append(char)
+
+    return expanded_row
