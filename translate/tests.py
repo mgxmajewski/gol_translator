@@ -5,6 +5,20 @@ from .utils.rle_translator import extract_rows, row_parse, row_expand
 
 class TestUtil:
 
+    # case 1
+    rle_1 = 'bob$2bo$3o!'
+    expected_1 = ['bob', '2bo', '3o!']
+    case_1 = rle_1, expected_1
+
+    @pytest.fixture(autouse=True)
+    def prepare_extract_rows(self):
+        self.extract_rows = extract_rows
+
+    @pytest.mark.parametrize("rle_provided, expected", [case_1])
+    def test_extract_rows(self, rle_provided, expected):
+        result = extract_rows(rle_provided)
+        assert_that(result).is_equal_to(expected)
+
     def test_parse_row_simple_chars(self):
         row = ['oo']
         result = row_parse(row)
