@@ -32,3 +32,25 @@ class TestUtilParser:
         result = parse_row(row_provided)
 
         assert_that(result).is_equal_to(expected)
+
+
+class TestUtilExpander:
+    # case 1
+    row_1 = ['2b', 'o', '2b', '2o']
+    expected_1 = ['b', 'b', 'o', 'b', 'b', 'o', 'o']
+    case_row_1 = row_1, expected_1
+
+    # case 2
+    row_2 = ['12b', 'o', '2b', '2o']
+    expected_2 = ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'o', 'b', 'b', 'o', 'o']
+    case_row_2 = row_2, expected_2
+
+    @pytest.fixture(autouse=True)
+    def prepare_expand_row(self):
+        self.expand_row = row_expand
+
+    @pytest.mark.parametrize("row_provided, expected", [case_row_1, case_row_1])
+    def test_expand_row(self, row_provided, expected):
+        result = row_expand(row_provided)
+
+        assert_that(result).is_equal_to(expected)
