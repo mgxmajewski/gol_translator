@@ -21,3 +21,7 @@ def translate_rle(grid_string):
         grid.append([char for char in row])
 
     return grid
+
+
+def expand_row(row):
+    return 1
