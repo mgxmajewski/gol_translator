@@ -23,7 +23,7 @@ def translate_rle(grid_string):
     return grid
 
 
-def expand_row(row):
+def parse_row(row):
     row_string = row[0]
     split_on_regex = re.findall('[0-9]+[a-z]|[a-z]', row_string)
 
