@@ -1,5 +1,6 @@
 import json
 
+from .utils.rle_translator import translate_rle
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -16,4 +17,4 @@ def index(request, *args, **kwargs):
         # print(f"{request.body}")
         json_data = json.loads(request.body)
         grid = json_data['grid']
-        return HttpResponse(f"{grid}")
+        return HttpResponse(f"{grid}, {translate_rle(grid)}")
